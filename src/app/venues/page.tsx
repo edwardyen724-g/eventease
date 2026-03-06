@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
-import { firestore } from '../../lib/firebase'; // Adjust the path as necessary
+import { db } from '../../lib/firebase'; // Use the correct Firestore db import
 import { Venue } from '../../types'; // Assuming Venue interface is defined in types
 
 const VenueSuggestionsPage: React.FC = () => {
@@ -13,7 +13,7 @@ const VenueSuggestionsPage: React.FC = () => {
     const fetchVenues = async () => {
       setLoading(true);
       try {
-        const querySnapshot = await getDocs(collection(firestore, 'venues'));
+        const querySnapshot = await getDocs(collection(db, 'venues'));
         const venueList: Venue[] = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Venue));
         setVenues(venueList);
       } catch (err) {
@@ -40,8 +40,7 @@ const VenueSuggestionsPage: React.FC = () => {
           venues.map(venue => (
             <li key={venue.id} className="mb-4 border p-4 rounded shadow">
               <h2 className="text-xl font-semibold">{venue.name}</h2>
-              <p>{venue.description}</p>
-            </li>
+          </h2>
           ))
         )}
       </ul>
