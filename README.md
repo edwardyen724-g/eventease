@@ -1,44 +1,43 @@
 # EventEase
 
-> Simple booking and scheduling for local event planners and service providers.
+> Effortlessly streamline your event bookings with intuitive design.
 
 **Status:** 🚧 In Development
 
 ## Problem
-Users struggle with complicated booking processes and extensive rescheduling options. EventEase streamlines appointment management, making it easier for event planners to organize and manage their schedules efficiently.
+Current booking systems are too complex and inflexible, leading to frustration for event coordinators. EventEase simplifies the scheduling and rescheduling process with a visually appealing interface.
 
 ## MVP Features
-- Customizable event types tailored to specific local needs.
-- Intuitive calendar interface for easy booking and rescheduling.
-- Local venue suggestion feature based on event type.
-- Integration with local payment options to simplify transactions.
-- Automated email and SMS reminders for upcoming events.
+- User-friendly calendar interface with drag-and-drop scheduling
+- Customizable themes to match brand identity
+- Simple rescheduling functionality with one click
+- Integration with popular event management platforms like Eventbrite and Zoom
+- Automated email notifications for confirmations and reminders
 
 ## Tech Stack
 - **Frontend:** Next.js 14 (App Router)
 - **Backend:** Next.js API Routes
-- **Database:** FaunaDB
-- **Auth:** Firebase Authentication
+- **Database:** MongoDB
+- **Auth:** Auth0
 - **Payments:** Stripe
 - **Hosting:** Vercel
 
 ## Architecture Notes
-This architecture leverages Next.js for a seamless frontend experience with built-in API routing for the backend. Firebase Authentication ensures secure user login, while Stripe handles payment processing. The choice of Vercel for hosting streamlines deployment and optimizes performance.
+Using Next.js allows for an integrated frontend and backend experience, leveraging API routes for backend logic. MongoDB is utilized for its flexibility, while Vercel provides seamless deployment for the Next.js application.
 
 ## User Stories
-- Define Custom Event Types
-- Intuitive Calendar Interface
-- Local Venue Suggestions
-- Payment Integration
-- Automated Email Reminders
-- User Account Management
+- User can schedule an event
+- User can customize themes
+- User can reschedule an event
+- User can integrate with Eventbrite
+- User can integrate with Zoom
+- User receives automated notifications
 
 ## Launch Checklist
-- [ ] Create a landing page with early access sign-up
-- [ ] Set up Firebase Authentication and Firestore database
-- [ ] Implement user interface for event management
-- [ ] Integrate Stripe for payment processing
-- [ ] Conduct user testing for the MVP functionalities
+- [ ] Create landing page for early access sign-ups
+- [ ] Set up hosting for backend and frontend applications
+- [ ] Configure databases and environment variables
+- [ ] Implement email service for notifications
 
 ## Setup
 ```bash
