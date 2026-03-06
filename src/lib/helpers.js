@@ -1,6 +1,5 @@
-import { firestore } from 'firebase-admin';
-import { db } from './firebaseAdmin'; // Adjust based on your actual path to firebaseAdmin
-import { EventDetails } from '@/types/eventTypes'; // Adjust the path based on your types definition
+import { db } from './firebaseAdmin';
+import { EventDetails } from '@/types/eventTypes';
 
 export const formatEventDate = (date: Date): string => {
   return date.toLocaleString('en-US', {
@@ -40,5 +39,5 @@ export const saveEventDetails = async (eventDetails: EventDetails): Promise<void
 
 export const scheduleReminder = (eventDate: Date, contactInfo: string): void => {
   // Logic for scheduling reminders, could be integrated with a service
-  console.log(`Reminder set for ${contactInfo} on ${formatEventDate(eventDate)}`);
+  console.log(`Reminder set for ${contactInfo} on ${eventDate}`);
 };
