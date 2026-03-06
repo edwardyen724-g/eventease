@@ -1,30 +1,32 @@
-import { formatISO } from 'date-fns';
+import { ObjectId } from 'mongoose';
+import { CalendarEvent } from '../models/Event';
 
-export const formatDate = (date: Date): string => {
-  return formatISO(date, { representation: 'date' });
+export const formatEventDate = (date: Date): string => {
+  return date.toLocaleString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 };
 
-export const validateEmail = (email: string): boolean => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
+export const isValidObjectId = (id: string): boolean => {
+  return ObjectId.isValid(id);
 };
 
-export const debounce = (func: (...args: any[]) => void, delay: number) => {
-  let timeoutId: NodeJS.Timeout;
-  return (...args: any[]) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
+export const calculateTimeDifference = (start: Date, end: Date): string => {
+  const diffInMs = end.getTime() - start.getTime();
+  const diffInHours = Math.floor(diffInMs / 3600000);
+  const diffInMinutes = Math.floor((diffInMs % 3600000) / 60000);
+  return `${diffInHours}h ${diffInMinutes}m`;
 };
 
-export const getUniqueItems = <T>(items: T[]): T[] => {
-  return Array.from(new Set(items));
-};
-
-export const isObjectEmpty = (obj: Record<string, unknown>): boolean => {
-  return Object.keys(obj).length === 0;
+export const mapEventsForDisplay = (events: CalendarEvent[]): Array<{ id: string; title: string; start: string; end: string }> => {
+  return events.map(event => ({
+    id: event._id.toString(),
+    title: event.title,
+    start: formatEventDate(event.startDate),
+    end: formatEventDate(event.endDate),
+  }));
 };
