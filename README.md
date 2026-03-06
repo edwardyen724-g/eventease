@@ -1,43 +1,44 @@
 # EventEase
 
-> Effortlessly streamline your event bookings with intuitive design.
+> Streamlined booking management tools tailored for cultural and community events.
 
 **Status:** 🚧 In Development
 
 ## Problem
-Current booking systems are too complex and inflexible, leading to frustration for event coordinators. EventEase simplifies the scheduling and rescheduling process with a visually appealing interface.
+Event planners struggle with complicated booking processes and need an intuitive tool that simplifies scheduling while supporting multiple languages for local engagement.
 
 ## MVP Features
-- User-friendly calendar interface with drag-and-drop scheduling
-- Customizable themes to match brand identity
-- Simple rescheduling functionality with one click
-- Integration with popular event management platforms like Eventbrite and Zoom
-- Automated email notifications for confirmations and reminders
+- Simple event creation workflow with customizable date, time, and location fields.
+- Multilingual booking interface to cater to diverse event attendees.
+- Event rescheduling functionality with notifications for changed dates/times.
+- Basic attendance tracking with RSVP functionality.
+- User-friendly dashboard for managing events, attendees, and bookings.
 
 ## Tech Stack
 - **Frontend:** Next.js 14 (App Router)
 - **Backend:** Next.js API Routes
-- **Database:** MongoDB
-- **Auth:** Auth0
+- **Database:** Supabase Postgres
+- **Auth:** Supabase Auth
 - **Payments:** Stripe
 - **Hosting:** Vercel
 
 ## Architecture Notes
-Using Next.js allows for an integrated frontend and backend experience, leveraging API routes for backend logic. MongoDB is utilized for its flexibility, while Vercel provides seamless deployment for the Next.js application.
+This architecture leverages Next.js for the frontend and API routes, enabling a seamless full-stack experience. Supabase provides built-in authentication and a Postgres database, simplifying setup while maintaining battle-tested reliability. Vercel offers optimal hosting optimized for Next.js, ensuring performant deployment.
 
 ## User Stories
-- User can schedule an event
-- User can customize themes
-- User can reschedule an event
-- User can integrate with Eventbrite
-- User can integrate with Zoom
-- User receives automated notifications
+- Event Creation
+- Multilingual Booking Interface
+- Event Rescheduling
+- RSVP Functionality
+- User-Friendly Dashboard
+- Basic Attendance Tracking
 
 ## Launch Checklist
-- [ ] Create landing page for early access sign-ups
-- [ ] Set up hosting for backend and frontend applications
-- [ ] Configure databases and environment variables
-- [ ] Implement email service for notifications
+- [ ] Develop landing page with email capture
+- [ ] Implement event creation workflow
+- [ ] Build multilingual interface support
+- [ ] Set up user authentication with Firebase
+- [ ] Develop dashboard functionality
 
 ## Setup
 ```bash
