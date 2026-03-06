@@ -16,7 +16,7 @@ const VenueSuggestionsPage: React.FC = () => {
         const querySnapshot = await getDocs(collection(firestore, 'venues'));
         const venueList: Venue[] = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Venue));
         setVenues(venueList);
-      } catch (error) {
+      } catch (err) {
         console.error('Error fetching venues:', err instanceof Error ? err.message : String(err));
       } finally {
         setLoading(false);
