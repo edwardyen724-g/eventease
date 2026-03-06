@@ -1,80 +1,113 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import admin from 'firebase-admin';
-import { initializeApp, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
-
-const serviceAccount = {
-  // Initialize with your Firebase Admin SDK credentials
-  type: process.env.FIREBASE_TYPE,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  privateKeyId: process.env.FIREBASE_PRIVATE_KEY_ID,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  clientId: process.env.FIREBASE_CLIENT_ID,
-  authUri: process.env.FIREBASE_AUTH_URI,
-  tokenUri: process.env.FIREBASE_TOKEN_URI,
-  authProviderX509CertUrl: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-  clientC509CertUrl: process.env.FIREBASE_CLIENT_X509_CERT_URL,
-};
-
-if (!admin.apps.length) {
-  initializeApp({
-    credential: cert(serviceAccount),
-  });
-}
-
-const db = getFirestore();
+import { NextApiRequest, NextApiResponse } from 'next';
+import { supabase } from '@/lib/supabaseClient'; // Ensure you have a supabase client set up
+import { Event } from '@/types/Event'; // Define your Event type in types/Event.ts
+import { verifyToken } from '@/lib/auth'; // A function to verify Supabase JWT token
 
 interface AuthedRequest extends NextApiRequest {
-  user?: { uid: string };
+  user: { id: string; email: string } | null;
 }
 
-const rateLimitMap = new Map<string, number>();
+const events: Record<string, Event[]> = {}; // In-memory storage for event data (simple example)
+
+export default async function handler(req: AuthedRequest, res: NextApiResponse) {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    
+    const user = await verifyToken(token);
+    if (!user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    req.user = user;
+
+    switch (req.method) {
+      case 'GET':
+        return await getEvents(req, res);
+      case 'POST':
+        return await createEvent(req, res);
+      case 'PUT':
+        return await updateEvent(req, res);
+      case 'DELETE':
+        return await deleteEvent(req, res);
+      default:
+        return res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']).status(405).end(`Method ${req.method} Not Allowed`);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err instanceof Error ? err.message : String(err) });
+  }
+}
 
 async function getEvents(req: AuthedRequest, res: NextApiResponse) {
   try {
-    const eventsSnapshot = await db.collection('events').get();
-    const events = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    res.status(200).json(events);
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .eq('user_id', req.user?.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return res.status(200).json(data);
   } catch (err) {
-    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+    return res.status(500).json({ message: err instanceof Error ? err.message : String(err) });
   }
 }
 
 async function createEvent(req: AuthedRequest, res: NextApiResponse) {
   try {
-    const eventData = req.body;
-    const eventRef = await db.collection('events').add(eventData);
-    res.status(201).json({ id: eventRef.id, ...eventData });
+    const { title, date, time, location } = req.body;
+    const { data, error } = await supabase
+      .from('events')
+      .insert([{ title, date, time, location, user_id: req.user?.id }]);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return res.status(201).json(data);
   } catch (err) {
-    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+    return res.status(500).json({ message: err instanceof Error ? err.message : String(err) });
   }
 }
 
-export default async function handler(req: AuthedRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    return getEvents(req, res);
-  }
+async function updateEvent(req: AuthedRequest, res: NextApiResponse) {
+  try {
+    const { id, title, date, time, location } = req.body;
+    const { data, error } = await supabase
+      .from('events')
+      .update({ title, date, time, location })
+      .eq('id', id)
+      .eq('user_id', req.user?.id);
 
-  if (req.method === 'POST') {
-    const requestKey = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-    if (requestKey) {
-      const currentCount = rateLimitMap.get(requestKey) || 0;
-      if (currentCount >= 5) {
-        return res.status(429).json({ error: 'Too many requests' });
-      }
-      rateLimitMap.set(requestKey, currentCount + 1);
-      setTimeout(() => {
-        rateLimitMap.set(requestKey, currentCount); // Reset count after 1 minute
-      }, 60000);
-    } else {
-      return res.status(400).json({ error: 'Request origin missing' });
+    if (error) {
+      throw new Error(error.message);
     }
 
-    return createEvent(req, res);
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).json({ message: err instanceof Error ? err.message : String(err) });
   }
+}
 
-  res.setHeader('Allow', ['GET', 'POST']);
-  res.status(405).end(`Method ${req.method} Not Allowed`);
+async function deleteEvent(req: AuthedRequest, res: NextApiResponse) {
+  try {
+    const { id } = req.body;
+    const { data, error } = await supabase
+      .from('events')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', req.user?.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).json({ message: err instanceof Error ? err.message : String(err) });
+  }
 }
