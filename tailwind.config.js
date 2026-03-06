@@ -1,33 +1,32 @@
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './pages/**/*.{js,ts,jsx,tsx}',
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
-      colors: {
-        primary: '#4F46E5',
-        secondary: '#FBBF24',
-        accent: '#A78BFA',
-        background: '#F9FAFB',
-        surface: '#FFFFFF',
-        error: '#EF4444',
-        onPrimary: '#FFFFFF',
-        onSecondary: '#000000',
-      },
       fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
-        serif: ['Merriweather', ...fontFamily.serif],
+        sans: ['Poppins', ...fontFamily.sans],
+      },
+      colors: {
+        primary: '#4F46E5', // Indigo 600
+        secondary: '#FBBF24', // Yellow 400
+        accent: '#3B82F6', // Blue 500
+        background: '#F9FAFB', // Gray 200
+        surface: '#FFFFFF', // White
+        error: '#EF4444', // Red 600
       },
       spacing: {
-        18: '4.5rem',
-        72: '18rem',
+        '72': '18rem',
+        '84': '21rem',
+        '96': '24rem',
       },
-      borderRadius: {
-        '4xl': '2rem',
+      screens: {
+        '3xl': '1792px',
       },
     },
   },
