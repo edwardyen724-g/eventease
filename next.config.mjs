@@ -1,15 +1,10 @@
-import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
-
-const middleware = withAuth({
-  pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-  },
-});
+import { withAuth } from 'next-auth/middleware';
 
 export const config = {
-  matcher: ['/protected/:path*', '/dashboard/:path*'],
+  matcher: ['/protected/:path*'], // Protected routes
 };
 
-export default middleware;
+export default withAuth((req) => {
+  return NextResponse.next();
+});
