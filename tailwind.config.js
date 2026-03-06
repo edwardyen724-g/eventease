@@ -1,34 +1,26 @@
-const { grayscale, colors } = require('tailwindcss/colors');
+const { fontFamily } = require('tailwindcss/defaultTheme');
 
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}', 
-    './components/**/*.{js,ts,jsx,tsx}', 
-    './pages/**/*.{js,ts,jsx,tsx}', 
-    './public/**/*.{html}', 
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
-      colors: {
-        primary: colors.blue['500'],
-        secondary: colors.green['500'],
-        accent: colors.orange['400'],
-        background: colors.gray['50'],
-        text: colors.gray['800'],
-        muted: colors.gray['600'],
-      },
       fontFamily: {
-        sans: ['Nunito Sans', 'ui-sans-serif', 'system-ui'],
-        serif: ['Merriweather', 'ui-serif', 'Georgia'],
+        sans: ['Inter', ...fontFamily.sans],
       },
-      spacing: {
-        '128': '32rem',
-        '144': '36rem',
+      colors: {
+        primary: '#4B5563',
+        secondary: '#9CA3AF',
+        accent: '#FBBF24',
+        background: '#F3F4F6',
+        error: '#F87171',
+        success: '#34D399',
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [],
 };
