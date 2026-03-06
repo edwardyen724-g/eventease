@@ -50,7 +50,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-4">
-      <DashboardHeader user={user} />
+      <DashboardHeader />
       <CreateEventButton />
       <EventList events={events} />
     </div>
