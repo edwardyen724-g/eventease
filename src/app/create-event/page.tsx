@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebase'; // assuming firebase config is in lib/firebase
+import { db } from '@/lib/firebaseAdmin'; // corrected import for Firestore
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 const CreateEventPage = () => {
@@ -52,73 +52,20 @@ const CreateEventPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-4">Create an Event</h1>
-      {loading && <LoadingSpinner />}
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <h1 className="text-2xl font-bold">Create Event</h1>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Event Title</label>
-          <input
-            type="text"
-            name="title"
-            value={eventDetails.title}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={eventDetails.date}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Time</label>
-          <input
-            type="time"
-            name="time"
-            value={eventDetails.time}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Venue</label>
-          <input
-            type="text"
-            name="venue"
-            value={eventDetails.venue}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Event Type</label>
-          <select
-            name="type"
-            value={eventDetails.type}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Select Event Type</option>
-            <option value="wedding">Wedding</option>
-            <option value="party">Party</option>
-            <option value="corporate">Corporate</option>
-            <option value="concert">Concert</option>
-          </select>
-        </div>
-        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">
-          Create Event
-        </button>
+        {loading ? <LoadingSpinner /> : null}
+        {error && <div className="text-red-500">{error}</div>}
+        <input type="text" name="title" placeholder="Event Title" onChange={handleChange} required />
+        <input type="date" name="date" onChange={handleChange} required />
+        <input type="time" name="time" onChange={handleChange} required />
+        <input type="text" name="venue" placeholder="Venue" onChange={handleChange} required />
+        <select name="type" onChange={handleChange} required>
+          <option value="">Select Event Type</option>
+          <option value="conference">Conference</option>
+          <option value="workshop">Workshop</option>
+        </select>
+        <button type="submit">Create Event</button>
       </form>
     </div>
   );
