@@ -54,18 +54,10 @@ const CreateEventPage = () => {
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold">Create Event</h1>
       <form onSubmit={handleSubmit}>
-        {loading ? <LoadingSpinner /> : null}
-        {error && <div className="text-red-500">{error}</div>}
-        <input type="text" name="title" placeholder="Event Title" onChange={handleChange} required />
-        <input type="date" name="date" onChange={handleChange} required />
-        <input type="time" name="time" onChange={handleChange} required />
-        <input type="text" name="venue" placeholder="Venue" onChange={handleChange} required />
-        <select name="type" onChange={handleChange} required>
-          <option value="">Select Event Type</option>
-          <option value="conference">Conference</option>
-          <option value="workshop">Workshop</option>
-        </select>
-        <button type="submit">Create Event</button>
+        <input type="text" name="title" value={eventDetails.title} onChange={handleChange} />
+        <button type="submit">Submit</button>
+        {loading && <LoadingSpinner />}
+        {error && <p>{error}</p>}
       </form>
     </div>
   );
