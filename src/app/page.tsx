@@ -1,33 +1,32 @@
 import React from 'react';
 import Link from 'next/link';
 
-const LandingPage: React.FC = () => {
+const Page: React.FC = () => {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Transform Your Event Bookings with Ease and Style</h1>
-      <p className="text-lg text-center mb-8">
-        Effortlessly streamline your event bookings with intuitive design.
-      </p>
-      <div className="flex flex-col items-center space-y-4">
-        <Link href="/get-started" className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-          Get Started
-        </Link>
-        <Link href="/features" className="text-blue-600 underline">
-          Explore Our Features
-        </Link>
-      </div>
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold mb-2">Key Features</h2>
-        <ul className="list-disc list-inside">
-          <li>User-friendly calendar interface with drag-and-drop scheduling</li>
-          <li>Customizable themes to match your brand identity</li>
-          <li>Simple rescheduling functionality with one click</li>
-          <li>Integration with popular event management platforms like Eventbrite and Zoom</li>
-          <li>Automated email notifications for confirmations and reminders</li>
+    <div className="container mx-auto px-4 py-8">
+      <header className="text-center">
+        <h1 className="text-4xl font-bold">Effortlessly Manage Your Cultural Events with Multilingual Booking!</h1>
+        <p className="mt-4 text-lg">Streamlined booking management tools tailored for cultural and community events.</p>
+      </header>
+      
+      <section className="mt-8">
+        <h2 className="text-2xl font-semibold">Features</h2>
+        <ul className="list-disc list-inside mt-4">
+          <li>Simple event creation workflow with customizable date, time, and location fields.</li>
+          <li>Multilingual booking interface to cater to diverse event attendees.</li>
+          <li>Event rescheduling functionality with notifications for changed dates/times.</li>
+          <li>Basic attendance tracking with RSVP functionality.</li>
+          <li>User-friendly dashboard for managing events, attendees, and bookings.</li>
         </ul>
       </section>
-    </main>
+
+      <footer className="mt-8 text-center">
+        <Link href="/signup" className="inline-block bg-blue-500 text-white py-2 px-4 rounded">
+          Get Started
+        </Link>
+      </footer>
+    </div>
   );
 };
 
-export default LandingPage;
+export default Page;
