@@ -1,18 +1,14 @@
-import { defineConfig } from 'next/config';
+import { defineConfig } from 'next';
 
 export default defineConfig({
   reactStrictMode: true,
-  // Enable TypeScript's strict mode for stricter type checking
-  typescript: {
-    ignoreBuildErrors: false,
+  experimental: {
+    appDir: true,
   },
   env: {
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLIC_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-  },
-  experimental: {
-    appDir: true,
   },
 });
