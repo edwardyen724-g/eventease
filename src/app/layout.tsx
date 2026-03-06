@@ -1,26 +1,34 @@
 import React from 'react';
+import { Inter } from 'next/font/google';
 import './globals.css';
-import { AuthProvider } from '../context/AuthContext';
-import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: "EventEase",
-  description: "Effortlessly streamline your event bookings with intuitive design.",
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata = {
+  title: 'EventEase',
+  description: 'Streamlined booking management tools tailored for cultural and community events.',
 };
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body>
-        <AuthProvider>
-          <main className="layout-container">
-            <h1 className="headline">Transform Your Event Bookings with Ease and Style</h1>
-            {children}
-          </main>
-        </AuthProvider>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body className={inter.className}>
+        <header>
+          <h1>Effortlessly Manage Your Cultural Events with Multilingual Booking!</h1>
+        </header>
+        <main>{children}</main>
+        <footer>
+          <p>&copy; {new Date().getFullYear()} EventEase. All rights reserved.</p>
+        </footer>
       </body>
     </html>
   );
-};
-
-export default Layout;
+}
