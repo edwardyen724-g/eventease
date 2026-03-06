@@ -1,0 +1,1 @@
+export const createEvent = async (data: any) => { return {}; };
