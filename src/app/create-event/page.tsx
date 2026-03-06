@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebaseAdmin'; // corrected import for Firestore
+import { db } from '@/lib/firebaseAdmin';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 const CreateEventPage = () => {
@@ -54,11 +54,12 @@ const CreateEventPage = () => {
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold">Create Event</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="title" value={eventDetails.title} onChange={handleChange} />
-        <button type="submit">Submit</button>
+        <input type="text" name="title" value={eventDetails.title} onChange={handleChange} placeholder="Event Title" required />
+        {/* Add other input fields */}
+        <button type="submit" disabled={loading}>Submit</button>
         {loading && <LoadingSpinner />}
-        {error && <p>{error}</p>}
       </form>
+      {error && <div>{error}</div>}
     </div>
   );
 };
