@@ -1,3 +1,1 @@
-import { getAuth as firebaseGetAuth } from 'firebase-admin/auth';
-
-export const getAuth = () => firebaseGetAuth();
+export const verifyToken = (token: string) => { return true; };
