@@ -1,0 +1,1 @@
+export const FirebaseConfig = { apiKey: 'YOUR_API_KEY', authDomain: 'YOUR_AUTH_DOMAIN' };
