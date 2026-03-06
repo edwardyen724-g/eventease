@@ -1,36 +1,21 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+const AuthContext = React.createContext<{ user: User | null; login: (user: User) => void; logout: () => void; } | undefined>(undefined);
 
-interface AuthContextProps {
-  user: any;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
-}
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [user, setUser] = React.useState<User | null>(null);
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+    const login = (user: User) => {
+        setUser(user);
+    };
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+    const logout = () => {
+        setUser(null);
+    };
 
-  const login = async (username: string, password: string) => {
-    // Implement login logic
-    setUser({ username }); // Example user object
-  };
-
-  const logout = () => {
-    setUser(null);
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export { AuthContext, AuthProvider };
