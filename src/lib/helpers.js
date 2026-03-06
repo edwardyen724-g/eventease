@@ -17,7 +17,7 @@ export const getAvailableVenues = async (eventType: string): Promise<string[]> =
     const snapshot = await venueRef.where('eventTypes', 'array-contains', eventType).get();
     const venues: string[] = [];
     
-    snapshot.forEach((doc) => {
+snapshot.forEach((doc) => {
       venues.push(doc.data().name);
     });
 
