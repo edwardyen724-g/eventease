@@ -1,8 +1,12 @@
 import React, { createContext, useContext } from 'react';
 
-const AuthContext = createContext(null);
+interface AuthContextType {
+  // Define the shape of your context here
+}
 
-export const AuthProvider: React.FC = ({ children }) => {
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>;
 };
 
