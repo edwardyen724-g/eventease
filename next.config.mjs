@@ -1,20 +1,15 @@
-import { defineConfig } from 'next';
-import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
+import { withAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
-export default defineConfig({
-  reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    appDir: true,
-  },
-  cssModules: true,
-  webpack: (config) => {
-    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
-    return config;
-  },
-  postcss: {
-    plugins: [tailwindcss, autoprefixer],
+const middleware = withAuth({
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
   },
 });
+
+export const config = {
+  matcher: ['/protected/:path*', '/dashboard/:path*'],
+};
+
+export default middleware;
