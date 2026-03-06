@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../lib/firebase'; // Use the correct Firestore db import
-import { Venue } from '../../types'; // Assuming Venue interface is defined in types
+import { db } from '../../lib/firebaseAdmin'; // Use the correct Firestore db import
+import { Venue } from '../../types';
 
 const VenueSuggestionsPage: React.FC = () => {
   const [venues, setVenues] = useState<Venue[]>([]);
@@ -40,7 +40,7 @@ const VenueSuggestionsPage: React.FC = () => {
           venues.map(venue => (
             <li key={venue.id} className="mb-4 border p-4 rounded shadow">
               <h2 className="text-xl font-semibold">{venue.name}</h2>
-          </h2>
+            </li>
           ))
         )}
       </ul>
