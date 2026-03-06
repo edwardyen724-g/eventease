@@ -3,8 +3,8 @@ import React, { createContext, useContext, ReactNode } from 'react';
 interface AuthContextType {
   // Define the shape of your context
   user: any;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void | undefined>;
+  logout: () => Promise<void | undefined>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
