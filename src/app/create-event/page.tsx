@@ -1,119 +1,76 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../lib/firebase'; // Assuming firebase is initialized in this file
+import { createEvent } from '../../lib/api'; // Adjust the path as per your project structure
 import { useRouter } from 'next/navigation';
 
 const CreateEventPage: React.FC = () => {
-  const [eventData, setEventData] = useState({
-    title: '',
-    date: '',
-    time: '',
-    location: '',
-    language: '',
-  });
-  
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+    const [eventName, setEventName] = useState('');
+    const [eventDate, setEventDate] = useState('');
+    const [eventTime, setEventTime] = useState('');
+    const [eventLocation, setEventLocation] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setEventData((prev) => ({ ...prev, [name]: value }));
-  };
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setError(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+        try {
+            await createEvent({ eventName, eventDate, eventTime, eventLocation });
+            router.push('/events'); // Redirect to events list or dashboard after creation
+        } catch (err) {
+            setError(err instanceof Error ? err.message : String(err));
+        }
+    };
 
-    try {
-      // Assuming createEvent is a function that sends eventData to your backend API
-      const response = await fetch('/api/events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(eventData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create event');
-      }
-
-      router.push('/events'); // Redirect to events page after successful creation
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div>
-      <h1>Effortlessly Manage Your Cultural Events with Multilingual Booking!</h1>
-      <form onSubmit={handleSubmit}>
+    return (
         <div>
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            name="title"
-            value={eventData.title}
-            onChange={handleChange}
-            required
-          />
+            <h1>Effortlessly Manage Your Cultural Events with Multilingual Booking!</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="eventName">Event Name</label>
+                    <input
+                        type="text"
+                        id="eventName"
+                        value={eventName}
+                        onChange={(e) => setEventName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="eventDate">Date</label>
+                    <input
+                        type="date"
+                        id="eventDate"
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="eventTime">Time</label>
+                    <input
+                        type="time"
+                        id="eventTime"
+                        value={eventTime}
+                        onChange={(e) => setEventTime(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="eventLocation">Location</label>
+                    <input
+                        type="text"
+                        id="eventLocation"
+                        value={eventLocation}
+                        onChange={(e) => setEventLocation(e.target.value)}
+                        required
+                    />
+                </div>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <button type="submit">Create Event</button>
+            </form>
         </div>
-        <div>
-          <label htmlFor="date">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={eventData.date}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="time">Time</label>
-          <input
-            type="time"
-            name="time"
-            value={eventData.time}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="location">Location</label>
-          <input
-            type="text"
-            name="location"
-            value={eventData.location}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="language">Preferred Language</label>
-          <select
-            name="language"
-            value={eventData.language}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Language</option>
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            {/* Add more languages as needed */}
-          </select>
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Event'}
-        </button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </form>
-    </div>
-  );
+    );
 };
 
 export default CreateEventPage;
