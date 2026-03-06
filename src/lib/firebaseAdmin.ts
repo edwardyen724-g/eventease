@@ -1,0 +1,1 @@
+export const db = {}; // Stub for Firestore database connection
