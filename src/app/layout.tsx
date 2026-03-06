@@ -1,28 +1,21 @@
 import React from 'react';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import '../styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'EventEase',
-  description: 'Streamlined booking management tools tailored for cultural and community events.',
+  title: 'EventEase - Streamlined Booking Management',
+  description: 'Effortlessly Manage Your Cultural Events with Multilingual Booking!',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </head>
       <body className={inter.className}>
         <header>
-          <h1>Effortlessly Manage Your Cultural Events with Multilingual Booking!</h1>
+          <h1>EventEase</h1>
+          <p>Streamlined booking management tools tailored for cultural and community events.</p>
         </header>
         <main>{children}</main>
         <footer>
@@ -31,4 +24,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default Layout;
